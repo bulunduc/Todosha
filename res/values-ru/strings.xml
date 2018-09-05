@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Todosha</string>
+    <string name="action_settings">Настройки</string>
+    <string name="task_title_hint">Введите название задачи.</string>
+    <string name="task_description_hint">Введите описание задачи.</string>
+    <string name="task_title_label">Название:</string>
+    <string name="task_description_label">Описание:</string>
+    <string name="task_alarm">Добавить напоминание:</string>
+    <string name="task_alarm_off">Напоминание выключено</string>
+    <string name="tasks_title">Задачи</string>
+    <string name="date_picker_title">Дата напоминания</string>
+    <string name="date_time_dialog">Выберите время и дату</string>
+    <string name="ok">OK</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="new_task">Новая задача</string>
+    <string name="delete_task">Удалить задачу</string>
+    <string name="empty_list">Список задач пуст.</string>
+    <string name="add_task">Добавить задачу</string>
+    <string name="update_task">Редактировать задачу</string>
+    <string name="settings">Настройки</string>
+    <string name="title_is_empty">Пожалуйста, добавьте заголовок задачи</string>
+</resources>
