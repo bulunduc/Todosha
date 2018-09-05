@@ -30,6 +30,7 @@ public class TaskActivity extends AppCompatActivity {
 
         Toolbar mActionBarToolbar = findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mActionBarToolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator (R.mipmap.outline_clear_black_24);
         mActionBarToolbar.setNavigationOnClickListener(new View.OnClickListener() {

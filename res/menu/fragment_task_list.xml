@@ -3,8 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.bulunduc.todosha.TaskActivity">
     <item
+        android:id="@+id/action_search"
+        android:title="@android:string/search_go"
+        android:icon="@mipmap/outline_search_black_24"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
+    <item
         android:id="@+id/menu_item_settings"
-        android:icon="@mipmap/ic_settings"
+        android:icon="@mipmap/outline_build_black_24"
         android:title="@string/settings"
         app:showAsAction="ifRoom|withText" />
 </menu>

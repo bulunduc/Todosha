@@ -24,4 +24,5 @@
             android:background="@color/colorFloatingButton"
             android:src="@mipmap/outline_add_black_48"/>
     </FrameLayout>
+
 </LinearLayout>

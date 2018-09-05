@@ -20,4 +20,8 @@
     <string name="update_task">Update task</string>
     <string name="settings">Settings</string>
     <string name="title_is_empty">Please, add a title of task</string>
+    <string name="deleted">Deleted</string>
+    <string name="undo">Undo</string>
+    <string name="date_is_old">Choose actual alarm time, please</string>
+
 </resources>

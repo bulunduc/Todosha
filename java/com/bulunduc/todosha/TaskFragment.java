@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.bulunduc.todosha.notifications.AlarmReceiver;
 import com.bulunduc.todosha.pickers.DatePickerFragment;
 import com.bulunduc.todosha.pickers.PickerFragment;
 import com.bulunduc.todosha.pickers.TimePickerFragment;
@@ -156,6 +157,8 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                 task.setAlarmDate(tempDate);
                 Intent intent = new Intent(getActivity(), TaskListActivity.class);
                 startActivity(intent);
+                Bundle bundle = new Bundle();
+                AlarmReceiver alarmReceiver = new AlarmReceiver(getActivity(), bundle);
                 break;
         }
     }

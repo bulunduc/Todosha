@@ -14,11 +14,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.bulunduc.android_swipe_to_dismiss_undo.SwipeToDismissTouchListener;
+import com.bulunduc.android_swipe_to_dismiss_undo.adapter.ListViewAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,8 +36,6 @@ public class TaskListFragment extends ListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(Html.fromHtml("<font color=\"black\">" + getString(R.string.app_name) + "</font>"));
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(Html.fromHtml("<font color=\"black\">"+ getString(R.string.tasks_title) +"</font>"));
         tasks = TaskLab.get(getActivity()).getTasks();
         TaskAdapter taskArrayAdapter = new TaskAdapter(tasks);
         setListAdapter(taskArrayAdapter);
@@ -42,26 +45,46 @@ public class TaskListFragment extends ListFragment {
         super.onViewCreated(view, savedInstanceState);
         View emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_list_tasks, null);
         ((ViewGroup)getListView().getParent()).addView(emptyView);
-        FloatingActionButton addNewTaskButton = (FloatingActionButton) emptyView.findViewById(R.id.add_task);
-        addNewTaskButton.setOnClickListener(new View.OnClickListener() {
+        getListView().setEmptyView(emptyView);
+
+        ListView listView = getListView();
+        final SwipeToDismissTouchListener<ListViewAdapter> touchListener =
+                new SwipeToDismissTouchListener<>(
+                        new ListViewAdapter(listView),
+                        new SwipeToDismissTouchListener.DismissCallbacks<ListViewAdapter>() {
+                            @Override
+                            public boolean canDismiss(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onPendingDismiss(ListViewAdapter recyclerView, int position) {
+
+                            }
+
+                            @Override
+                            public void onDismiss(ListViewAdapter view, int position) {
+                                TaskLab.get(getActivity()).deleteTask(tasks.get(position));
+                            }
+                        });
+// Dismiss the item automatically after 3 seconds
+        touchListener.setDismissDelay(3000);
+
+        listView.setOnTouchListener(touchListener);
+        listView.setOnScrollListener((AbsListView.OnScrollListener) touchListener.makeScrollListener());
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Task task = new Task();
-                TaskLab.get(getActivity()).addTask(task);
-                Intent intent = new Intent(getActivity(), TaskPagerActivity.class);
-                intent.putExtra(TaskFragment.EXTRA_TASK_ID, task.getId());
-                startActivityForResult(intent, 0);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (touchListener.existPendingDismisses()) {
+                    touchListener.undoPendingDismiss();
+                } else {
+                    Task task = ((TaskAdapter) getListAdapter()).getItem(position);
+                    Intent intent = new Intent(getActivity(), TaskActivity.class);
+                    intent.putExtra(TaskFragment.EXTRA_TASK_ID, task.getId());
+                    startActivity(intent);
+                }
             }
         });
-
-        getListView().setEmptyView(emptyView);
-    }
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        Task task = ((TaskAdapter) getListAdapter()).getItem(position);
-        Intent intent = new Intent(getActivity(), TaskPagerActivity.class);
-        intent.putExtra(TaskFragment.EXTRA_TASK_ID, task.getId());
-        startActivity(intent);
     }
 
     private class TaskAdapter extends ArrayAdapter<Task> {
@@ -111,6 +134,8 @@ public class TaskListFragment extends ListFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_search:
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

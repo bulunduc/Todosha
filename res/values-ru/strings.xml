@@ -20,4 +20,7 @@
     <string name="update_task">Редактировать задачу</string>
     <string name="settings">Настройки</string>
     <string name="title_is_empty">Пожалуйста, добавьте заголовок задачи</string>
+    <string name="deleted">Таск удален</string>
+    <string name="undo">Отмена</string>
+    <string name="date_is_old">Выберите актуальное время напоминания</string>
 </resources>
