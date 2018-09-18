@@ -157,8 +157,11 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                 task.setAlarmDate(tempDate);
                 Intent intent = new Intent(getActivity(), TaskListActivity.class);
                 startActivity(intent);
-                Bundle bundle = new Bundle();
-                AlarmReceiver alarmReceiver = new AlarmReceiver(getActivity(), bundle);
+                if (task.getIsAlarmOn()) {
+                    Bundle bundle = new Bundle();
+                    //сюда добавить арг дату либо в тасклаб создать метод, который будет отвечать за создание напоминаний
+                    AlarmReceiver alarmReceiver = new AlarmReceiver(getActivity(), bundle);
+                }
                 break;
         }
     }

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#cccab5</color>
+    <color name="colorPrimary">#a5d6a7</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#f57f17</color>
+    <color name="colorAccent">#75a478</color>
+    <color name="colorToolbar">#d7ffd9</color>
     <color name="colorText">#000000</color>
-    <color name="defaultColorButton">#e0e0e0</color>
-    <color name="customColorButton">#A0f57f17</color>
+    <color name="colorDescriptionText">#bdbdbd</color>
     <color name="colorFloatingButton">#f57f17</color>
-    <color name="colorToolbar">#f57f17</color>
 </resources>

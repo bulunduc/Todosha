@@ -20,6 +20,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         Toast.makeText(context, "Alarm went off", Toast.LENGTH_SHORT).show();
     }
 
+    public AlarmReceiver() {
+    }
+
     public AlarmReceiver(Context context, Bundle extras){
         AlarmManager alarmMgr =
                 (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);

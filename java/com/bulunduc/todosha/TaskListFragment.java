@@ -65,6 +65,7 @@ public class TaskListFragment extends ListFragment {
                             @Override
                             public void onDismiss(ListViewAdapter view, int position) {
                                 TaskLab.get(getActivity()).deleteTask(tasks.get(position));
+                                ((TaskAdapter)getListAdapter()).notifyDataSetChanged();
                             }
                         });
 // Dismiss the item automatically after 3 seconds
@@ -103,6 +104,9 @@ public class TaskListFragment extends ListFragment {
             TextView titleTextView = (TextView) convertView.findViewById(R.id.task_list_item_titleTextView);
             titleTextView.setText(task.getTitle());
 
+            TextView descriptionTextView = (TextView) convertView.findViewById(R.id.task_list_item_descriptionTextView);
+            descriptionTextView.setText(task.getDescription());
+
             TextView alarmDateTextView = (TextView) convertView.findViewById(R.id.task_list_item_alarmDateTextView);
 
             if (task.getIsAlarmOn()) {
@@ -117,12 +121,6 @@ public class TaskListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         ((TaskAdapter)getListAdapter()).notifyDataSetChanged();
-        //toDo it will be eat time, need to change architecture with creating new task
-        ArrayList<Task> emptyTasks = new ArrayList<Task>();
-        for (Task task : tasks) {
-            if (task.isTaskNew()) emptyTasks.add(task);
-        }
-        tasks.removeAll(emptyTasks);
     }
 
     @Override

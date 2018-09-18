@@ -51,11 +51,19 @@ public class TaskLab {
         tasks.add(task);
     }
 
+    public void deleteEmptyTasks(){
+        ArrayList<Task> emptyTasks = new ArrayList<Task>();
+        for (Task task : tasks) {
+            if (task.isTaskNew()) emptyTasks.add(task);
+        }
+        tasks.removeAll(emptyTasks);
+    }
     public void deleteTask(Task task) {
         tasks.remove(task);
     }
 
     public boolean saveTasks(){
+        deleteEmptyTasks();
         try{
             todoshaJSONSerializer.saveTasks(tasks);
             Log.d(TAG, "tasks saved to file");
