@@ -5,6 +5,7 @@ import android.os.Build;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
@@ -114,4 +115,12 @@ public class Task {
         }
         return 0;
     }
+
+    public static Comparator<Task> SORT_BY_DATE = new Comparator<Task>() {
+        @Override
+        public int compare(Task o1, Task o2) {
+            return (int) (o1.getAlarmDate().getTime() - o2.getAlarmDate().getTime());
+        }
+    };
+
 }

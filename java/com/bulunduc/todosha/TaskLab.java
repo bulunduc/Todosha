@@ -8,6 +8,7 @@ import android.util.Log;
 import com.bulunduc.todosha.notifications.AlarmReceiver;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 
 public class TaskLab {
@@ -39,6 +40,7 @@ public class TaskLab {
     }
 
     public ArrayList<Task> getTasks() {
+        sortTasks();
         return tasks;
     }
 
@@ -79,7 +81,6 @@ public class TaskLab {
         }
     }
 
-    //todo rename this
     public void addAlarmForNextTask(){
         ArrayList<Task> nearestTasks = getNearestTasks();
         if (nearestTasks.size() > 0) {
@@ -94,7 +95,7 @@ public class TaskLab {
     }
 
     @NonNull
-    private ArrayList<Task> getNearestTasks() {
+    protected ArrayList<Task> getNearestTasks() {
         ArrayList<Task> nearestTasks = new ArrayList<Task>();
         Task nearestTask = new Task();
         for (Task task : tasks) {
@@ -115,4 +116,28 @@ public class TaskLab {
         }
         return nearestTasks;
     }
+    
+    protected ArrayList<Task> getLatestTasks() {
+        ArrayList<Task> latestTasks = new ArrayList<Task>();
+        for (Task task : tasks) {
+            if (task.getIsAlarmOn() && task.getAlarmDate().getTime() < System.currentTimeMillis()){
+                latestTasks.add(task);
+            }
+        }
+        return latestTasks;
+    }
+    
+    protected void sortTasks(){
+        ArrayList<Task> noAlarmDateTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (!task.getIsAlarmOn()){
+                noAlarmDateTasks.add(task);
+            }
+        }
+        tasks.removeAll(noAlarmDateTasks);
+        Collections.sort(tasks, Task.SORT_BY_DATE);
+        tasks.addAll(noAlarmDateTasks);
+    }
+
+
 }
