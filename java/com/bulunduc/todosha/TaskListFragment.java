@@ -101,6 +101,9 @@ public class TaskListFragment extends ListFragment {
             }
             Task task = getItem(position);
 
+            if (TaskLab.get(getActivity()).getLatestTasks().contains(task)) convertView.setBackgroundColor(getResources().getColor(R.color.colorLatest));
+            if (TaskLab.get(getActivity()).getNearestTasks().contains(task)) convertView.setBackgroundColor(getResources().getColor(R.color.colorNearest));
+
             TextView titleTextView = (TextView) convertView.findViewById(R.id.task_list_item_titleTextView);
             titleTextView.setText(task.getTitle());
 

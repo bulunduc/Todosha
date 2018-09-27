@@ -136,6 +136,7 @@ public class TaskLab {
         }
         tasks.removeAll(noAlarmDateTasks);
         Collections.sort(tasks, Task.SORT_BY_DATE);
+        Collections.sort(noAlarmDateTasks, Task.SORT_BY_TITLE);
         tasks.addAll(noAlarmDateTasks);
     }
 

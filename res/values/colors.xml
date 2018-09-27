@@ -6,5 +6,7 @@
     <color name="colorToolbar">#d7ffd9</color>
     <color name="colorText">#000000</color>
     <color name="colorDescriptionText">#bdbdbd</color>
+    <color name="colorLatest">#ffcdd2</color>
+    <color name="colorNearest">#ffecb3</color>
     <color name="colorFloatingButton">#f57f17</color>
 </resources>
