@@ -1,7 +1,11 @@
 package com.bulunduc.todosha;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.bulunduc.todosha.notifications.AlarmReceiver;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -58,6 +62,7 @@ public class TaskLab {
         }
         tasks.removeAll(emptyTasks);
     }
+
     public void deleteTask(Task task) {
         tasks.remove(task);
     }
@@ -72,5 +77,42 @@ public class TaskLab {
             Log.e(TAG, "error saving tasks:" + e);
             return false;
         }
+    }
+
+    //todo rename this
+    public void addAlarmForNextTask(){
+        ArrayList<Task> nearestTasks = getNearestTasks();
+        if (nearestTasks.size() > 0) {
+            Bundle args = new Bundle();
+            args.putSerializable(AlarmReceiver.REMINDER_DATE, nearestTasks.get(0).getAlarmDate().getTime());
+            if (nearestTasks.size() > 1) {
+                args.putSerializable(AlarmReceiver.REMINDER_TITLE, appContext.getString(R.string.several_task_notification));
+            } else
+                args.putSerializable(AlarmReceiver.REMINDER_TITLE, nearestTasks.get(0).getTitle());
+            AlarmReceiver.restartNotify(appContext, args);
+        }
+    }
+
+    @NonNull
+    private ArrayList<Task> getNearestTasks() {
+        ArrayList<Task> nearestTasks = new ArrayList<Task>();
+        Task nearestTask = new Task();
+        for (Task task : tasks) {
+            if (task.getIsAlarmOn() && task.getAlarmDate().getTime() > System.currentTimeMillis()){
+                if (nearestTasks.size() == 0) nearestTask = task;
+                switch (task.getAlarmDate().compareTo(nearestTask.getAlarmDate())){
+                    case -1:
+                        nearestTasks.clear();
+                        nearestTasks.add(task);
+                        break;
+                    case 0:
+                        nearestTasks.add(task);
+                        break;
+                    case 1:
+                        break;
+                }
+            }
+        }
+        return nearestTasks;
     }
 }

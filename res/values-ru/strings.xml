@@ -23,4 +23,6 @@
     <string name="deleted">Таск удален</string>
     <string name="undo">Отмена</string>
     <string name="date_is_old">Выберите актуальное время напоминания</string>
+    <string name="several_task_notification">Несколько тасков ожидают вашего внимания</string>
+
 </resources>

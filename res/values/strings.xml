@@ -23,5 +23,9 @@
     <string name="deleted">Deleted</string>
     <string name="undo">Undo</string>
     <string name="date_is_old">Choose actual alarm time, please</string>
+    <string name="several_task_notification">Several tasks need your attention</string>
+
+    <string name="action_share">Share</string>
+    <string name="action_reply">Reply</string>
 
 </resources>

@@ -37,6 +37,6 @@ public class TimePickerFragment extends PickerFragment {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int hour = timePicker.getCurrentHour();
         int minutes = timePicker.getCurrentMinute();
-        return new GregorianCalendar(year, month, day, hour, minutes).getTime();
+        return new GregorianCalendar(year, month, day, hour, minutes, 0).getTime();
     }
 }

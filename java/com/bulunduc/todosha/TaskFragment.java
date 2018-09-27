@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.bulunduc.todosha.notifications.AlarmReceiver;
 import com.bulunduc.todosha.pickers.DatePickerFragment;
 import com.bulunduc.todosha.pickers.PickerFragment;
 import com.bulunduc.todosha.pickers.TimePickerFragment;
@@ -155,15 +154,12 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                 task.setDescription(descriptionField.getText().toString());
                 task.setIsAlarmOn(alarmOnSwitch.isChecked());
                 task.setAlarmDate(tempDate);
+                if (task.getIsAlarmOn()) TaskLab.get(getActivity()).addAlarmForNextTask();
                 Intent intent = new Intent(getActivity(), TaskListActivity.class);
                 startActivity(intent);
-                if (task.getIsAlarmOn()) {
-                    Bundle bundle = new Bundle();
-                    //сюда добавить арг дату либо в тасклаб создать метод, который будет отвечать за создание напоминаний
-                    AlarmReceiver alarmReceiver = new AlarmReceiver(getActivity(), bundle);
-                }
                 break;
         }
     }
+
 }
 
