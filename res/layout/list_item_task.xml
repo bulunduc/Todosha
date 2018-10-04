@@ -47,26 +47,26 @@
         android:visibility="gone">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:id="@+id/txt_delete"
             android:drawableLeft="@mipmap/outline_delete_black_36"
             android:gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:paddingLeft="24dp"
             android:text="@string/deleted"
             android:clickable="false"
-            android:layout_weight="2"
             android:hapticFeedbackEnabled="true"/>
 
         <TextView
+            android:id="@+id/txt_undo"
+            android:drawableRight="@mipmap/outline_clear_black_36"
+            android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:id="@+id/txt_undo"
+            android:layout_weight="1"
             android:paddingRight="24dp"
-            android:drawableRight="@mipmap/outline_clear_black_36"
             android:text="@string/undo"
-            android:clickable="false"
-            android:layout_weight="1"/>
+            android:clickable="false"/>
     </LinearLayout>
 </RelativeLayout>
