@@ -16,7 +16,6 @@ import com.bulunduc.todosha.TaskListActivity;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
-    private final String REMINDER_BUNDLE = "MyReminderBundle";
     public static final String REMINDER_DATE = "reminder_date";
     public static final String REMINDER_TITLE = "reminder_title";
 
@@ -29,7 +28,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         builder.setSmallIcon(R.drawable.outline_alarm_24)
                 .setContentTitle(intent.getStringExtra(REMINDER_TITLE))
                 .setAutoCancel(true)
-                .setVibrate(new long[] { 1000, 1000, 1000})
+                .setVibrate(new long[] { 1000, 1000})
                 .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                 .setContentIntent(pendingIntent);
         Notification notification = builder.getNotification();
@@ -50,7 +49,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 pendingIntent);
     }
 
-    public static void setNextNotification(Context context){
+    private static void setNextNotification(Context context){
         TaskLab.get(context).addAlarmForNextTask();
     }
 

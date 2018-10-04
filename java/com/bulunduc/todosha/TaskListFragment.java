@@ -1,14 +1,13 @@
 package com.bulunduc.todosha;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ListFragment;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.util.Log;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,8 +16,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +27,7 @@ import java.util.ArrayList;
 
 public class TaskListFragment extends ListFragment {
     private ArrayList<Task> tasks;
+    private ArrayList<Task> searchTasks;
 
     private static final String TAG = "TaskListFragment";
     @Override
@@ -50,7 +48,7 @@ public class TaskListFragment extends ListFragment {
         ListView listView = getListView();
         final SwipeToDismissTouchListener<ListViewAdapter> touchListener =
                 new SwipeToDismissTouchListener<>(
-                        new ListViewAdapter(listView),
+                        new ListViewAdapter(getListView()),
                         new SwipeToDismissTouchListener.DismissCallbacks<ListViewAdapter>() {
                             @Override
                             public boolean canDismiss(int position) {
@@ -65,7 +63,9 @@ public class TaskListFragment extends ListFragment {
                             @Override
                             public void onDismiss(ListViewAdapter view, int position) {
                                 TaskLab.get(getActivity()).deleteTask(tasks.get(position));
+                                TaskLab.get(getActivity()).saveTasks();
                                 ((TaskAdapter)getListAdapter()).notifyDataSetChanged();
+
                             }
                         });
 // Dismiss the item automatically after 3 seconds
@@ -88,34 +88,43 @@ public class TaskListFragment extends ListFragment {
         });
     }
 
+
     private class TaskAdapter extends ArrayAdapter<Task> {
         public TaskAdapter(ArrayList<Task> tasks) {
             super(getActivity(), 0, tasks);
         }
 
+        class ViewHolder {
+            TextView titleTextView;
+            TextView descriptionTextView;
+            TextView alarmDateTextView;
+            ViewHolder(View view) {
+                titleTextView = (TextView) view.findViewById(R.id.task_list_item_titleTextView);
+                descriptionTextView = (TextView) view.findViewById(R.id.task_list_item_descriptionTextView);
+                alarmDateTextView = (TextView) view.findViewById(R.id.task_list_item_alarmDateTextView);
+                view.setTag(this);
+            }
+        }
+
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            if (convertView == null) {
-                convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_task, null);
-            }
             Task task = getItem(position);
+            ViewHolder viewHolder = convertView == null
+                    ? new ViewHolder(convertView = getActivity().getLayoutInflater().from(parent.getContext())
+                    .inflate(R.layout.list_item_task, parent, false))
+                    : (ViewHolder) convertView.getTag();
+
+            viewHolder.titleTextView.setText(task.getTitle());
+            viewHolder.descriptionTextView.setText(task.getDescription());
+            if (task.getIsAlarmOn()) {
+                SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                viewHolder.alarmDateTextView.setText(dt.format(task.getAlarmDate()));
+            }
 
             if (TaskLab.get(getActivity()).getLatestTasks().contains(task)) convertView.setBackgroundColor(getResources().getColor(R.color.colorLatest));
             if (TaskLab.get(getActivity()).getNearestTasks().contains(task)) convertView.setBackgroundColor(getResources().getColor(R.color.colorNearest));
 
-            TextView titleTextView = (TextView) convertView.findViewById(R.id.task_list_item_titleTextView);
-            titleTextView.setText(task.getTitle());
-
-            TextView descriptionTextView = (TextView) convertView.findViewById(R.id.task_list_item_descriptionTextView);
-            descriptionTextView.setText(task.getDescription());
-
-            TextView alarmDateTextView = (TextView) convertView.findViewById(R.id.task_list_item_alarmDateTextView);
-
-            if (task.getIsAlarmOn()) {
-                SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                alarmDateTextView.setText(dt.format(task.getAlarmDate()));
-            }
             return convertView;
         }
     }
@@ -130,6 +139,40 @@ public class TaskListFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_task_list, menu);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextChange(String newText) {
+                ArrayList<Task> filterTasks = new ArrayList<>();// this is your adapter that will be filtered
+                for (Task task : tasks) {
+                    if (task.getTitle().toLowerCase().startsWith(newText.toLowerCase())) {
+                        filterTasks.add(task);
+                    }
+                }
+                TaskAdapter taskArrayAdapter = new TaskAdapter(filterTasks);
+                setListAdapter(taskArrayAdapter);
+                return true;
+            }
+
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+
+
+        searchManager.setOnCancelListener(new SearchManager.OnCancelListener() {
+            @Override
+            public void onCancel() {
+                tasks = TaskLab.get(getActivity()).getTasks();
+                TaskAdapter taskArrayAdapter = new TaskAdapter(tasks);
+                setListAdapter(taskArrayAdapter);
+            }
+        });
+
+
     }
 
     @Override

@@ -67,6 +67,7 @@ public class TaskLab {
 
     public void deleteTask(Task task) {
         tasks.remove(task);
+
     }
 
     public boolean saveTasks(){

@@ -119,7 +119,9 @@ public class Task {
     public static Comparator<Task> SORT_BY_DATE = new Comparator<Task>() {
         @Override
         public int compare(Task o1, Task o2) {
-            return (int) (o1.getAlarmDate().getTime() - o2.getAlarmDate().getTime());
+            int result = (int) (o1.getAlarmDate().getTime() - o2.getAlarmDate().getTime());
+            if (result == 0) return  o1.getTitle().compareTo(o2.getTitle());
+            return result;
         }
     };
 
