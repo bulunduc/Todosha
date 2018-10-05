@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class TaskListFragment extends ListFragment {
     private ArrayList<Task> tasks;
     private ArrayList<Task> searchTasks;
+    ViewGroup textViewGroup;
 
     private static final String TAG = "TaskListFragment";
     @Override
@@ -48,7 +49,7 @@ public class TaskListFragment extends ListFragment {
         ListView listView = getListView();
         final SwipeToDismissTouchListener<ListViewAdapter> touchListener =
                 new SwipeToDismissTouchListener<>(
-                        new ListViewAdapter(getListView()),
+                        new ListViewAdapter(listView),
                         new SwipeToDismissTouchListener.DismissCallbacks<ListViewAdapter>() {
                             @Override
                             public boolean canDismiss(int position) {
