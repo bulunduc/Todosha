@@ -5,4 +5,5 @@
     android:layout_width="match_parent"
     app:theme="@style/ThemeOverlay.AppCompat.Light"
     android:layout_height="?android:actionBarSize"
-    android:background="@color/colorToolbar"/>
+    android:background="@color/colorToolbar"
+    app:titleTextColor="@color/colorToolbarText"/>

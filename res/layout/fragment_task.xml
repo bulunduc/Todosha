@@ -62,42 +62,42 @@
                 android:gravity="left"
                 android:text=""/>
         </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="16dp">
-
-        <Button
-            android:id="@+id/task_time"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_border"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:text="@string/time" />
+            android:orientation="horizontal"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/task_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_border"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:text="@string/date" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/task_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_animation"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:text="@string/time" />
+
+            <Button
+                android:id="@+id/task_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_animation"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:text="@string/date" />
+        </LinearLayout>
     </LinearLayout>
     <Button
         android:id="@+id/add_update_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_border"
+        android:background="@drawable/ripple_animation"
         android:layout_alignParentBottom="true"
         android:enabled="true"
         android:layout_marginBottom="16dp"

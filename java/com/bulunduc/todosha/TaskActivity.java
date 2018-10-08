@@ -32,7 +32,7 @@ public class TaskActivity extends AppCompatActivity {
         setSupportActionBar(mActionBarToolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator (R.mipmap.outline_clear_black_24);
+        getSupportActionBar().setHomeAsUpIndicator (R.drawable.round_clear_white_24);
         mActionBarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -43,9 +43,9 @@ public class TaskActivity extends AppCompatActivity {
             }
         });
         if (task.isTaskNew())
-            getSupportActionBar().setTitle(Html.fromHtml("<font color=\"black\">" + getString(R.string.new_task) + "</font>"));
+            getSupportActionBar().setTitle(Html.fromHtml("<font color=\"white\">" + getString(R.string.new_task) + "</font>"));
         else
-            getSupportActionBar().setTitle(Html.fromHtml("<font color=\"black\">" + getString(R.string.update_task) + "</font>"));
+            getSupportActionBar().setTitle(Html.fromHtml("<font color=\"white\">" + getString(R.string.update_task) + "</font>"));
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragmentContainer);

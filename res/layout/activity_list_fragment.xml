@@ -21,8 +21,8 @@
             android:layout_gravity="bottom|right"
             android:layout_marginBottom="32dp"
             android:layout_marginRight="32dp"
-            android:background="@color/colorFloatingButton"
-            android:src="@mipmap/outline_add_black_48"/>
+            android:background="@color/colorAccent"
+            android:src="@drawable/round_add_white_48"/>
     </FrameLayout>
 
 </LinearLayout>
