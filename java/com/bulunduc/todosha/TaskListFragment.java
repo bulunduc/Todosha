@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
 import android.support.v7.widget.SearchView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -89,44 +90,52 @@ public class TaskListFragment extends ListFragment {
         });
     }
 
+    private static class ViewHolder {
+        TextView titleTextView;
+        TextView descriptionTextView;
+        TextView alarmDateTextView;
+    }
 
     private class TaskAdapter extends ArrayAdapter<Task> {
         public TaskAdapter(ArrayList<Task> tasks) {
             super(getActivity(), 0, tasks);
         }
-
-        class ViewHolder {
-            TextView titleTextView;
-            TextView descriptionTextView;
-            TextView alarmDateTextView;
-            ViewHolder(View view) {
-                titleTextView = (TextView) view.findViewById(R.id.task_list_item_titleTextView);
-                descriptionTextView = (TextView) view.findViewById(R.id.task_list_item_descriptionTextView);
-                alarmDateTextView = (TextView) view.findViewById(R.id.task_list_item_alarmDateTextView);
-                view.setTag(this);
-            }
-        }
-
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             Task task = getItem(position);
-            ViewHolder viewHolder = convertView == null
-                    ? new ViewHolder(convertView = getActivity().getLayoutInflater().from(parent.getContext())
-                    .inflate(R.layout.list_item_task, parent, false))
-                    : (ViewHolder) convertView.getTag();
+            View view = convertView;
+            ViewHolder viewHolder;
+            if (view == null) {
+                viewHolder = new ViewHolder();
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                view = inflater.inflate(R.layout.list_item_task, null);
+                viewHolder.titleTextView = (TextView) view.findViewById(R.id.task_list_item_titleTextView);
+                viewHolder.descriptionTextView = (TextView) view.findViewById(R.id.task_list_item_descriptionTextView);
+                viewHolder.alarmDateTextView = (TextView) view.findViewById(R.id.task_list_item_alarmDateTextView);
+                view.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) view.getTag();
+            }
 
             viewHolder.titleTextView.setText(task.getTitle());
             viewHolder.descriptionTextView.setText(task.getDescription());
             if (task.getIsAlarmOn()) {
                 SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 viewHolder.alarmDateTextView.setText(dt.format(task.getAlarmDate()));
+            } else {
+                viewHolder.alarmDateTextView.setText(R.string.task_alarm_off);
             }
 
-            if (TaskLab.get(getActivity()).getLatestTasks().contains(task)) convertView.setBackgroundColor(getResources().getColor(R.color.colorLatest));
-            if (TaskLab.get(getActivity()).getNearestTasks().contains(task)) convertView.setBackgroundColor(getResources().getColor(R.color.colorNearest));
+            if (TaskLab.get(getActivity()).getLatestTasks().contains(task))
+            {
+                view.setBackgroundColor(getResources().getColor(R.color.colorLatest));
+            } else if (TaskLab.get(getActivity()).getNearestTasks().contains(task))
+            {
+                view.setBackgroundColor(getResources().getColor(R.color.colorNearest));
+            } else view.setBackgroundColor(getResources().getColor(R.color.colorListView));
 
-            return convertView;
+            return view;
         }
     }
 

@@ -5,6 +5,7 @@
     <color name="colorAccent">#ffab40</color>
     <color name="colorToolbar">#3f51b5</color>
     <color name="colorToolbarText">#ffffff</color>
+    <color name="colorListView">#ffffff</color>
     <color name="colorText">#000000</color>
     <color name="colorDescriptionText">#bdbdbd</color>
     <color name="colorLatest">#ffcdd2</color>
